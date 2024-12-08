@@ -40,7 +40,13 @@ class RegisterUserSerializer(serializers.Serializer):
         user.full_clean()
         return data
     
-class UserProfileSerializer(serializers.Serializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username, password, email']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.CharField()
+    class Meta:
+        model = Profile
+        fields = '__all__'

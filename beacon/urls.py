@@ -1,7 +1,8 @@
 from django.urls import path
 
-from .views import index
+from .views import PanicDispatchView, SearchBeaconListView
 
 urlpatterns = [
-    path('', index.as_view()),
+    path('panic', PanicDispatchView.as_view()),
+    path('search', SearchBeaconListView.as_view()),
 ]

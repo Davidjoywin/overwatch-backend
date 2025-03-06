@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import Profile
+from beacon.models import Beacon
 from utils.token import create_token
 
 
@@ -30,7 +31,9 @@ class RegisterUserSerializer(serializers.Serializer):
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
-        Profile.object.create(user=user).save()
+        profile = Profile.object.create(user=user)
+        profile.save()
+        Beacon.objects.create(user_profile=profile).save()
         return user
     
     def validate(self, data):
@@ -47,6 +50,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.CharField()
+    
     class Meta:
         model = Profile
         fields = '__all__'
